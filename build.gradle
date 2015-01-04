@@ -1,0 +1,49 @@
+buildscript {
+    repositories {
+        maven { url "https://repo.spring.io/libs-release" }
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.10.RELEASE")
+    }
+}
+
+//plugins
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'spring-boot'
+
+//java configuration
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+
+//eclipse configuration
+eclipse.project {
+	natures 'org.springsource.ide.eclipse.gradle.core.nature'
+}
+eclipse.classpath {
+	containers 'org.springsource.ide.eclipse.gradle.classpathcontainer'
+}
+
+
+//project properties
+version = '0.1'
+
+
+//dependenciesS
+repositories {
+	mavenCentral()
+	maven { url "https://repo.spring.io/libs-release" }
+}
+
+dependencies {
+
+	compile 'org.springframework.boot:spring-boot-starter-batch'
+	compile 'org.springframework.boot:spring-boot-starter-jdbc'
+	
+	compile 'org.hsqldb:hsqldb:2.3.2'
+
+	testCompile 'junit:junit:4.11'
+}
