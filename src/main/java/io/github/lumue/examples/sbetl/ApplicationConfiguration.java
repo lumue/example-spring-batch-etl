@@ -48,7 +48,7 @@ public class ApplicationConfiguration {
 
 	@Bean
 	public Job job(JobBuilderFactory jobs, Step step1) {
-		return jobs.get("importUserJob")
+		return jobs.get("job")
 				.incrementer(new RunIdIncrementer())
 				.flow(step1)
 				.end()
@@ -56,9 +56,6 @@ public class ApplicationConfiguration {
 	}
 
 	public static void main(String[] args) throws Exception {
-		// System.exit is common for Batch applications since the exit code can
-		// be used to
-		// drive a workflow
 		System.exit(SpringApplication.exit(SpringApplication.run(
 				ApplicationConfiguration.class, args)));
 	}
