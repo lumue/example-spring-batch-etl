@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+
+	<batch:job id="importPersonJob">
+		<batch:step id="importPersonJob.fileToDatabaseStep">
+			<batch:tasklet>
+				<batch:chunk commit-interval="10" reader="personCsvFileReader" writer="personDatabaseWriter"/>
+			</batch:tasklet>
+		</batch:step>
+	</batch:job>
+	
+	<bean id="personCsvFileReader" class="org.springframework.batch.item.file.FlatFileItemReader">
+		<property name="linesToSkip" value="1" />
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<property name="lineTokenizer" >
+					<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+						<property name="names" value="first_name,last_name,street,city,country,email" />
+						<property name="delimiter" value="," />
+					</bean>
+				</property>
+				<property name="fieldSetMapper" >
+					<bean class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
+						<property name="targetType" value="io.github.lumue.examples.sbetl.domain.Person" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+		<property name="resource" value="classpath:person.csv"/>
+	</bean>
+	
+	<bean id="personDatabaseWriter" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+		<property name="sql" value="INSERT INTO person (first_name, last_name,street,city,country,email) VALUES (:firstName, :lastName,:street,:city,:country,:email)" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="itemSqlParameterSourceProvider" >
+			<bean class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
+		</property>
+	</bean>
+
+</beans>

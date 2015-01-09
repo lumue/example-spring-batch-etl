@@ -1,7 +1,7 @@
 /**
  * 
  */
-package io.github.lumue.examples.sbetl;
+package io.github.lumue.examples.sbetl.domain;
 
 import java.io.Serializable;
 
