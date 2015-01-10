@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+<head>
+<script src="http://www.polymer-project.org/platform.js"></script>
+<link rel="import"
+	href="http://www.polymer-project.org/components/polymer/polymer.html">
+<link rel="import"
+	href="http://www.polymer-project.org/components/core-scroll-header-panel/core-scroll-header-panel.html">
+<link rel="import"
+	href="http://www.polymer-project.org/components/core-list/core-list.html">
+<link rel="import"
+	href="http://www.polymer-project.org/components/core-header-panel/core-header-panel.html">
+<link rel="import"
+	href="http://www.polymer-project.org/components/core-toolbar/core-toolbar.html">
+<link rel="import"
+	href="http://www.polymer-project.org/components/core-icon-button/core-icon-button.html">
+<link rel="import"
+	href="http://www.polymer-project.org/components/paper-shadow/paper-shadow.html">
+<link rel="import"
+	href="http://www.polymer-project.org/components/paper-progress/paper-progress.html">
+<link rel="import"
+	href="http://www.polymer-project.org/components/core-icons/core-icons.html">
+
+</head>
+
+<body unresolved fullbleed>
+	<template is="auto-binding" id="page-template">
+	<style>
+#panel {
+	background-color: #FF8700;
+	padding: 10px;
+}
+
+.content {
+	padding: 5px;
+}
+
+#core_toolbar {
+	color: white;
+	background-color: #FF0000;
+	margin-bottom: 2px;
+}
+
+#row {
+	padding: 10px;
+	margin-bottom: 10px;
+	margin-top: 2px;
+	background-color: #EAE8FF;
+}
+
+#row h1 {
+	text-align: center;
+}
+
+
+	</style>
+
+	<core-scroll-header-panel id="panel" condenses fit mode="waterfall">
+
+	<paper-shadow> <core-toolbar id="core_toolbar">
+	<core-icon-button icon="arrow-back"></core-icon-button>
+	<div flex></div>
+	<core-icon-button icon="search"></core-icon-button> <core-icon-button
+		icon="more-vert"></core-icon-button>
+	<div class="bottom indent title">Title</div>
+	</core-toolbar> </paper-shadow>
+
+	<section class="content" flex>
+		<paper-shadow id="row">
+			<div id="row_head" style="float: none;">
+				<div id="row_head_left" style="float: left; width:20%;">
+					<core-icon class="big" icon="settings"></core-icon>
+				</div>
+				<div id="row_head_right" style="text-align:right;float: right; width:20%;">Running</div>
+				<div id="row_head_center" style="width:100%;" ><h1>Job Execution 1</h1></div>
+			</div>
+			<div style="width: 100%">
+				<p>
+					<span>item reader:</span> 
+					<span>100 read</span>
+					<span style="color: red;">10 skipped</span>
+					<paper-progress value="10"></paper-progress>
+				</p>
+				<p>
+					<span>item processor:</span> 
+					<span>53 processed</span>
+					<span style="color: red;">0 skipped</span>
+					<paper-progress value="5"></paper-progress>
+				</p>
+				<p>
+					<span>item writer:</span> 
+					<span>30 written</span>
+					<span style="color: red;">1 skipped</span>
+					<paper-progress value="3"></paper-progress>
+				</p>
+			</div>
+		</paper-shadow>
+		<paper-shadow id="row">
+			<div id="row_head" style="float: none;">
+				<div id="row_head_left" style="float: left; width:20%;">
+					<core-icon class="big" icon="settings"></core-icon>
+				</div>
+				<div id="row_head_right" style="text-align:right;float: right; width:20%;">Running</div>
+				<div id="row_head_center" style="width:100%;" ><h1>Job Execution 1</h1></div>
+			</div>
+			<div style="width: 100%">
+				<p>
+					<span>item reader:</span> 
+					<span>100 read</span>
+					<span style="color: red;">10 skipped</span>
+					<paper-progress value="10"></paper-progress>
+				</p>
+				<p>
+					<span>item processor:</span> 
+					<span>53 processed</span>
+					<span style="color: red;">0 skipped</span>
+					<paper-progress value="5"></paper-progress>
+				</p>
+				<p>
+					<span>item writer:</span> 
+					<span>30 written</span>
+					<span style="color: red;">1 skipped</span>
+					<paper-progress value="3"></paper-progress>
+				</p>
+			</div>
+		</paper-shadow>
+		<paper-shadow id="row">
+			<div id="row_head" style="float: none;">
+				<div id="row_head_left" style="float: left; width:20%;">
+					<core-icon class="big" icon="settings"></core-icon>
+				</div>
+				<div id="row_head_right" style="text-align:right;float: right; width:20%;">Running</div>
+				<div id="row_head_center" style="width:100%;" ><h1>Job Execution 1</h1></div>
+			</div>
+			<div style="width: 100%">
+				<p>
+					<span>item reader:</span> 
+					<span>100 read</span>
+					<span style="color: red;">10 skipped</span>
+					<paper-progress value="10"></paper-progress>
+				</p>
+				<p>
+					<span>item processor:</span> 
+					<span>53 processed</span>
+					<span style="color: red;">0 skipped</span>
+					<paper-progress value="5"></paper-progress>
+				</p>
+				<p>
+					<span>item writer:</span> 
+					<span>30 written</span>
+					<span style="color: red;">1 skipped</span>
+					<paper-progress value="3"></paper-progress>
+				</p>
+			</div>
+		</paper-shadow>
+	</section>
+	</core-scroll-header-panel> </template>
+</body>
+</html>

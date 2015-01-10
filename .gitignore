@@ -6,3 +6,5 @@
 /.direcotry
 /.gradle/
 /bin/
+src/main/resources/static/webclient/bower_components
+.springBeans
