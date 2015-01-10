@@ -1,0 +1,55 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-list/core-list.html">
+<link rel="import" href="../bower_components/paper-shadow/paper-shadow.html">
+<link rel="import" href="../bower_components/paper-progress/paper-progress.html">
+<polymer-element name="job-execution-list" attributes="data" noscript> 
+	<template>
+	
+		<style>
+		#card_list_row {
+		padding: 10px;
+		margin-bottom: 10px;
+		margin-top: 2px;
+		background-color: #EAE8FF;
+		}
+	
+		#card_list_row h1 {
+			text-align: center;
+		}
+		</style>
+		
+<!-- 		<core-list data="{{data}}"> -->
+<!-- 			<template> -->
+				<paper-shadow id="card_list_row">
+					<div id="row_head" style="float: none;">
+						<div id="row_head_left" style="float: left; width:20%;">
+							<core-icon class="big" icon="settings"></core-icon>
+						</div>
+						<div id="row_head_right" style="text-align:right;float: right; width:20%;">Running</div>
+						<div id="row_head_center" style="width:100%;" ><h1>Job Execution 1</h1></div>
+					</div>
+					<div style="width: 100%">
+						<p>
+							<span>item reader:</span> 
+							<span>100 read</span>
+							<span style="color: red;">10 skipped</span>
+							<paper-progress value="10"></paper-progress>
+						</p>
+						<p>
+							<span>item processor:</span> 
+							<span>53 processed</span>
+							<span style="color: red;">0 skipped</span>
+							<paper-progress value="5"></paper-progress>
+						</p>
+						<p>
+							<span>item writer:</span> 
+							<span>30 written</span>
+							<span style="color: red;">1 skipped</span>
+							<paper-progress value="3"></paper-progress>
+						</p>
+					</div>
+				</paper-shadow>
+<!-- 			</template> -->
+<!-- 		</core-list> -->
+	</template>
+</polymer-element>
