@@ -2,43 +2,85 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:batch="http://www.springframework.org/schema/batch"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+	xmlns:batch-int="http://www.springframework.org/schema/batch-integration"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd
+		http://www.springframework.org/schema/batch-integration http://www.springframework.org/schema/batch-integration/spring-batch-integration.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.0.xsd">
+
+	
 
 	<batch:job id="importPersonJob">
 		<batch:step id="importPersonJob.fileToDatabaseStep">
 			<batch:tasklet>
-				<batch:chunk commit-interval="10" reader="personCsvFileReader" writer="personDatabaseWriter"/>
+				<batch:chunk commit-interval="10" reader="personCsvFileReader"
+					writer="personDatabaseWriter" />
 			</batch:tasklet>
 		</batch:step>
 	</batch:job>
-	
-	<bean id="personCsvFileReader" class="org.springframework.batch.item.file.FlatFileItemReader">
+
+	<bean id="personCsvFileReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+		scope="step">
+		<aop:scoped-proxy />
 		<property name="linesToSkip" value="1" />
 		<property name="lineMapper">
 			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
-				<property name="lineTokenizer" >
-					<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
-						<property name="names" value="first_name,last_name,street,city,country,email" />
+				<property name="lineTokenizer">
+					<bean
+						class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+						<property name="names"
+							value="first_name,last_name,street,city,country,email" />
 						<property name="delimiter" value="," />
 					</bean>
 				</property>
-				<property name="fieldSetMapper" >
-					<bean class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
-						<property name="targetType" value="io.github.lumue.examples.sbetl.domain.Person" />
+				<property name="fieldSetMapper">
+					<bean
+						class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
+						<property name="targetType"
+							value="io.github.lumue.examples.sbetl.domain.Person" />
 					</bean>
 				</property>
 			</bean>
 		</property>
-		<property name="resource" value="classpath:person.csv"/>
+		<property name="resource" value="file://#{jobParameters['input.file.name']}" />
 	</bean>
-	
-	<bean id="personDatabaseWriter" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
-		<property name="sql" value="INSERT INTO person (first_name, last_name,street,city,country,email) VALUES (:firstName, :lastName,:street,:city,:country,:email)" />
+
+	<bean id="personDatabaseWriter"
+		class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+		
+		<property name="sql"
+			value="INSERT INTO person (first_name, last_name,street,city,country,email) VALUES (:firstName, :lastName,:street,:city,:country,:email)" />
 		<property name="dataSource" ref="dataSource" />
-		<property name="itemSqlParameterSourceProvider" >
-			<bean class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
+		<property name="itemSqlParameterSourceProvider">
+			<bean
+				class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
 		</property>
 	</bean>
+
+	<bean id="jobRegistryBeanPostProcessor"
+		class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor">
+		<property name="jobRegistry" ref="jobRegistry" />
+	</bean>
+
+
+	<int:channel id="outboundJobRequestChannel" />
+	<int:channel id="jobLaunchReplyChannel" />
+
+	<int:transformer input-channel="inboundFileChannel"
+		output-channel="outboundJobRequestChannel">
+		<bean class="io.github.lumue.examples.sbetl.job.FileMessageToJobRequest">
+			<property name="job" ref="importPersonJob" />
+			<property name="fileParameterName" value="input.file.name" />
+		</bean>
+	</int:transformer>
+
+	<batch-int:job-launching-gateway
+		request-channel="outboundJobRequestChannel" reply-channel="jobLaunchReplyChannel" />
+
+	<int:logging-channel-adapter channel="jobLaunchReplyChannel" />
+
 
 </beans>

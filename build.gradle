@@ -32,7 +32,7 @@ eclipse.classpath {
 version = '0.1'
 
 
-//dependenciesS
+//dependencies
 repositories {
 	mavenCentral()
 	maven { url "https://repo.spring.io/libs-release" }
@@ -42,7 +42,11 @@ dependencies {
 
 	compile 'org.springframework.boot:spring-boot-starter-batch'
 	compile 'org.springframework.boot:spring-boot-starter-jdbc'
-	
+	compile 'org.springframework.boot:spring-boot-starter-web'
+	compile 'org.springframework.boot:spring-boot-starter-integration'
+	compile 'org.springframework.batch:spring-batch-integration:3.0.2.RELEASE'
+	compile 'org.springframework:spring-aop:4.1.4.RELEASE'
+
 	compile 'org.hsqldb:hsqldb:2.3.2'
 
 	testCompile 'junit:junit:4.11'
