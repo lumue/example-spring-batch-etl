@@ -2,7 +2,7 @@
 <link rel="import" href="../bower_components/core-list/core-list.html">
 <link rel="import" href="../bower_components/paper-shadow/paper-shadow.html">
 <link rel="import" href="../bower_components/paper-progress/paper-progress.html">
-<polymer-element name="job-execution-list" attributes="data" noscript> 
+<polymer-element name="job-execution-list"> 
 	<template>
 	
 		<style>
@@ -18,8 +18,8 @@
 		}
 		</style>
 		
-<!-- 		<core-list data="{{data}}"> -->
-<!-- 			<template> -->
+		<core-list data="{{data}}" style="height: 100%;width: 100%;padding:10px;">
+			<template>
 				<paper-shadow id="card_list_row">
 					<div id="row_head" style="float: none;">
 						<div id="row_head_left" style="float: left; width:20%;">
@@ -49,7 +49,8 @@
 						</p>
 					</div>
 				</paper-shadow>
-<!-- 			</template> -->
-<!-- 		</core-list> -->
+			</template>
+		</core-list>
 	</template>
+	<script src="../components/job-execution-list.js"></script>
 </polymer-element>
