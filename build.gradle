@@ -44,10 +44,10 @@ dependencies {
 	compile 'org.springframework.boot:spring-boot-starter-jdbc'
 	compile 'org.springframework.boot:spring-boot-starter-web'
 	compile 'org.springframework.boot:spring-boot-starter-integration'
-	compile 'org.springframework.batch:spring-batch-integration:3.0.2.RELEASE'
-	compile 'org.springframework:spring-aop:4.1.4.RELEASE'
+	compile 'org.springframework.batch:spring-batch-integration'
+	compile 'org.springframework:spring-aop'
 
-	compile 'org.postgresql:postgresql:9.3-1102-jdbc41'
+	runtime 'org.hsqldb:hsqldb:2.3.2'
 
 	testCompile 'junit:junit:4.11'
 }
