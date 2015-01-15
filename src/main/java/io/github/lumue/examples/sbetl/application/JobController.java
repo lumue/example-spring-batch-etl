@@ -8,20 +8,14 @@ import java.util.Set;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobExecutionException;
 import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.JobParametersInvalidException;
-import org.springframework.batch.core.UnexpectedJobExecutionException;
 import org.springframework.batch.core.configuration.JobRegistry;
-import org.springframework.batch.core.launch.JobInstanceAlreadyExistsException;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.JobOperator;
-import org.springframework.batch.core.launch.JobParametersNotFoundException;
 import org.springframework.batch.core.launch.NoSuchJobException;
 import org.springframework.batch.core.launch.NoSuchJobExecutionException;
 import org.springframework.batch.core.launch.NoSuchJobInstanceException;
-import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
-import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
-import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -94,25 +88,20 @@ public class JobController {
 
 	@ResponseBody
 	@RequestMapping("/{jobName}/startInstance")
-	public Long start(@PathVariable("jobName") String jobName) throws NoSuchJobException, JobInstanceAlreadyExistsException,
-			JobParametersInvalidException {
+	public Long start(@PathVariable("jobName") String jobName) throws JobExecutionException {
 		return jobOperator.start(jobName, "");
 	}
 
 	@ResponseBody
 	@RequestMapping("/{jobName}/run")
-	public JobExecution run(@PathVariable("jobName") String jobName) throws NoSuchJobException, JobInstanceAlreadyExistsException,
-			JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
+	public JobExecution run(@PathVariable("jobName") String jobName) throws JobExecutionException {
 		Job job = jobRegistry.getJob(jobName);
 		return jobLauncher.run(job, new JobParameters());
 	}
 
 	@ResponseBody
 	@RequestMapping("/{jobName}/startNextInstance")
-	public Long startNextInstance(@PathVariable("jobName") String jobName) throws NoSuchJobException, JobParametersNotFoundException,
-			JobRestartException,
-			JobExecutionAlreadyRunningException, JobInstanceAlreadyCompleteException, UnexpectedJobExecutionException,
-			JobParametersInvalidException {
+	public Long startNextInstance(@PathVariable("jobName") String jobName) throws JobExecutionException {
 		return jobOperator.startNextInstance(jobName);
 	}
 
