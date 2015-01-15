@@ -7,14 +7,12 @@
 		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.0.xsd
 		http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.0.xsd">
 
-
 	<int:channel id="inboundFileChannel" />
 	
 	<int-file:inbound-channel-adapter id="filePoller"
 		channel="inboundFileChannel" directory="${application.upload.path}"
 		filename-pattern="*.complete"
-		prevent-duplicates="true"
-		>
+		prevent-duplicates="true">
 		<int:poller fixed-rate="1000" />
 	</int-file:inbound-channel-adapter>
 
