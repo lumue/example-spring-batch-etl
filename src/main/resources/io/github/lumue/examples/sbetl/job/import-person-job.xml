@@ -66,21 +66,6 @@
 	</bean>
 
 
-	<int:channel id="outboundJobRequestChannel" />
-	<int:channel id="jobLaunchReplyChannel" />
-
-	<int:transformer input-channel="inboundFileChannel"
-		output-channel="outboundJobRequestChannel">
-		<bean class="io.github.lumue.examples.sbetl.job.FileMessageToJobRequest">
-			<property name="job" ref="importPersonJob" />
-			<property name="fileParameterName" value="input.file.name" />
-		</bean>
-	</int:transformer>
-
-	<batch-int:job-launching-gateway
-		request-channel="outboundJobRequestChannel" reply-channel="jobLaunchReplyChannel" />
-
-	<int:logging-channel-adapter channel="jobLaunchReplyChannel" />
-
+	
 
 </beans>

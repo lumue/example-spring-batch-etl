@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:int-file="http://www.springframework.org/schema/integration/file"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch-integration="http://www.springframework.org/schema/batch-integration"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch-integration http://www.springframework.org/schema/batch-integration/spring-batch-integration-1.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.0.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.0.xsd">
+
+	<int-file:outbound-gateway 	
+		id="job.inboundFileGate" request-channel="inboundFileChannel"
+		reply-channel="job.inputChannel"
+		directory="${job.input.path}"
+		mode="FAIL" delete-source-files="true"/>
+		
+	<int:channel id="job.inputChannel" />
+	
+
+	<int:transformer id="job.fileToJobRequestTransformer" input-channel="job.inputChannel"
+		output-channel="job.launchJobRequestChannel">
+		<bean class="io.github.lumue.examples.sbetl.job.FileMessageToJobRequest">
+			<property name="job" ref="importPersonJob" />
+			<property name="fileParameterName" value="input.file.name" />
+		</bean>
+	</int:transformer>
+	
+	<int:channel id="job.launchJobRequestChannel" />
+
+	<batch-integration:job-launching-gateway
+		request-channel="job.launchJobRequestChannel" reply-channel="job.jobLaunchReplyChannel" />
+		
+	<int:channel id="job.jobLaunchReplyChannel" />
+
+	<int:logging-channel-adapter channel="job.jobLaunchReplyChannel" />
+	
+
+	
+</beans>
