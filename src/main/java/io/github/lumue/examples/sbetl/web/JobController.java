@@ -1,4 +1,4 @@
-package io.github.lumue.examples.sbetl.application;
+package io.github.lumue.examples.sbetl.web;
 
 import java.util.ArrayList;
 import java.util.HashMap;

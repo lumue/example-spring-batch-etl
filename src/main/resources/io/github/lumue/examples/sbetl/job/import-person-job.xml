@@ -40,7 +40,7 @@
 					<bean
 						class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
 						<property name="targetType"
-							value="io.github.lumue.examples.sbetl.domain.Person" />
+							value="io.github.lumue.examples.sbetl.job.Person" />
 					</bean>
 				</property>
 			</bean>
